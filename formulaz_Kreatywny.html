@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamówienie usług foto / wideo (Dział Kreatywny)</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+    <style>
+        :root {
+            --font-sans: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --navy: #0f2a4a;
+            --navy-light: #163a63;
+            --blue: #2563eb;
+            --blue-soft: #eff6ff;
+            --blue-border: #bfdbfe;
+            --amber-soft: #fffbeb;
+            --amber-border: #fde68a;
+            --amber-text: #92400e;
+            --red-soft: #fef2f2;
+            --red-border: #fecaca;
+            --red-text: #991b1b;
+            --green: #059669;
+            --text: #1f2937;
+            --text-2: #4b5563;
+            --text-3: #9ca3af;
+            --border: #d1d5db;
+            --border-soft: #e5e7eb;
+            --bg: #f3f5f9;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background: var(--bg); display: flex; justify-content: center; padding: 2rem 1rem; color: var(--text); }
+
+        .main-container { background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(15, 42, 74, 0.10); max-width: 860px; width: 100%; overflow: hidden; }
+
+        /* ---------- HERO ---------- */
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, var(--blue) 130%); color: #fff; padding: 2rem 2rem 1.6rem; }
+        .hero h1 { font-size: 26px; font-weight: 700; line-height: 1.25; margin-bottom: .4rem; }
+        .hero p { font-size: 14px; line-height: 1.6; opacity: .9; max-width: 640px; }
+
+        /* ---------- NOTKA O PRZEGLĄDARCE I INSTRUKCJA ---------- */
+        .browser-note { margin: 1.2rem 2rem 0; border-radius: var(--radius-sm); padding: 1rem 1.1rem; font-size: 13px; line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; background: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; }
+        .browser-note i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+        details.instruction { margin: 1rem 2rem 0; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: .9rem 1.1rem; font-size: 13px; line-height: 1.65; }
+        details.instruction summary { cursor: pointer; font-weight: 700; color: var(--navy); list-style-position: inside; }
+        details.instruction .instr-body { margin-top: .8rem; }
+        details.instruction .instr-body b { color: var(--navy); }
+        details.instruction ul { margin: .3rem 0 .8rem 1.1rem; }
+        details.instruction li { margin-bottom: 2px; }
+
+        /* ---------- KROKI ---------- */
+        .steps-wrap { padding: 1.2rem 2rem 0; }
+        .steps-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-2); margin-bottom: 8px; }
+        .steps-top b { color: var(--navy); }
+        .steps { display: flex; gap: 6px; }
+        .step-pill { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 6px; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600; color: var(--text-3); background: #f3f4f6; border: 1.5px solid transparent; cursor: default; text-align: center; }
+        .step-pill .n { width: 20px; height: 20px; border-radius: 50%; background: #d1d5db; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+        .step-pill.active { background: var(--blue-soft); color: var(--navy); border-color: var(--blue-border); }
+        .step-pill.active .n { background: var(--blue); }
+        .step-pill.done { color: var(--text-2); cursor: pointer; }
+        .step-pill.done .n { background: var(--green); }
+        .step-pill.done:hover { border-color: var(--green); }
+
+        .wrap { padding: 1.6rem 2rem 2rem; }
+        .step-panel { display: none; }
+        .step-panel.visible { display: block; animation: fadeIn .25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section { margin-bottom: 1.9rem; }
+        .section-title { font-size: 13px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1rem; padding-bottom: .55rem; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 9px; }
+        .section-title i { font-size: 18px; color: var(--blue); }
+
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field label { font-size: 13px; font-weight: 600; color: var(--text-2); }
+        .field label .req { color: #e24b4a; }
+        .field input, .field select, .field textarea { width: 100%; font-size: 14px; color: var(--text); background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 11px 13px; outline: none; font-family: var(--font-sans); transition: border-color .2s, box-shadow .2s; }
+        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .15); }
+        .field textarea { resize: vertical; min-height: 84px; line-height: 1.55; }
+        .field input.invalid, .field textarea.invalid, .field select.invalid { border-color: #e24b4a; }
+        .hint { font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.45; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { display: inline-flex; align-items: center; gap: 7px; padding: 9px 15px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 13px; cursor: pointer; color: var(--text-2); background: #fff; transition: all .15s; user-select: none; }
+        .chip input { width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; margin: 0; }
+        .chip:hover { border-color: var(--blue); }
+        .chip:has(input:checked) { background: var(--blue-soft); border-color: var(--blue); color: var(--navy); font-weight: 600; }
+        .chip.big { padding: 12px 18px; font-size: 14px; }
+
+        .info-box { border-radius: var(--radius-sm); padding: 1rem 1.1rem; font-size: 13px; line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.9rem; }
+        .info-box i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+        .info-box.blue { background: var(--blue-soft); border: 1px solid var(--blue-border); color: var(--navy); }
+        .info-box.amber { background: var(--amber-soft); border: 1px solid var(--amber-border); color: var(--amber-text); }
+        .info-box .lead-warn { font-weight: 700; }
+
+        .error-box { display: none; border-radius: var(--radius-sm); padding: .9rem 1.1rem; font-size: 13px; line-height: 1.7; background: var(--red-soft); border: 1px solid var(--red-border); color: var(--red-text); margin-bottom: 1.5rem; }
+        .error-box.visible { display: block; }
+
+        .cond { display: none; }
+        .cond.visible { display: block; animation: fadeIn .25s ease; }
+
+        /* ---------- SPRAWDZENIE ODPOWIEDZI ---------- */
+        .check-group { border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 1rem 1.2rem; margin-bottom: 1rem; }
+        .check-group-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: .6rem; }
+        .check-group-head b { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); }
+        .change-btn { background: transparent; border: 1.5px solid var(--blue-border); color: var(--blue); border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-sans); flex-shrink: 0; }
+        .change-btn:hover { background: var(--blue-soft); }
+        .check-row { display: flex; gap: 12px; font-size: 13.5px; line-height: 1.6; padding: 3px 0; }
+        .check-row .k { color: var(--text-3); min-width: 150px; flex-shrink: 0; }
+        .check-row .v { color: var(--text); }
+
+        .nav-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 2rem; flex-wrap: wrap; }
+        .btn-primary { background: var(--navy); color: #fff; border: none; border-radius: var(--radius-sm); padding: 13px 26px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 8px; transition: opacity .2s; }
+        .btn-primary:hover { opacity: .88; }
+        .btn-sec { background: transparent; color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 13px 24px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--font-sans); transition: background .2s; }
+        .btn-sec:hover { background: #f3f4f6; }
+
+        .fullw { grid-column: 1 / -1; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+        .success { display: none; text-align: center; padding: 3rem 1.5rem; }
+        .success i.main-icon { font-size: 64px; color: var(--green); display: block; margin-bottom: 1.4rem; }
+        .success h3 { font-size: 24px; font-weight: 700; color: #111827; margin-bottom: .9rem; }
+        .success p { font-size: 15px; color: var(--text-2); margin-bottom: 1.2rem; line-height: 1.65; }
+        .success .order-no { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 1.5rem; }
+        .success-summary { text-align: left; background: #f9fafb; border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 1rem 1.2rem; font-size: 13.5px; line-height: 1.7; margin: 0 auto 1.8rem auto; max-width: 560px; }
+
+        /* ---------- PRINT ---------- */
+        #printPreview { display: none; }
+        @media print {
+            @page { size: A4; margin: 15mm; }
+            body { background: #fff !important; padding: 0 !important; display: block !important; }
+            .main-container { box-shadow: none !important; border-radius: 0 !important; max-width: 100% !important; overflow: visible !important; }
+            .hero, .steps-wrap, #formBlock, .info-box, .browser-note, details.instruction { display: none !important; }
+            #printPreview { display: block !important; }
+            .print-table tr { page-break-inside: avoid; break-inside: avoid; }
+        }
+
+        @media (max-width: 640px) {
+            .grid2, .grid3 { grid-template-columns: 1fr; }
+            .hero, .wrap, .steps-wrap { padding-left: 1.2rem; padding-right: 1.2rem; }
+            .browser-note, details.instruction { margin-left: 1.2rem; margin-right: 1.2rem; }
+            .hero h1 { font-size: 22px; }
+            .steps { flex-wrap: wrap; }
+            .step-pill { flex: 1 1 40%; }
+            .nav-row button { flex: 1; justify-content: center; }
+            .check-row { flex-direction: column; gap: 0; }
+            .check-row .k { min-width: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<noscript>
+    <div style="max-width:860px;margin:0 auto 1rem auto;background:#fef2f2;border:2px solid #e24b4a;border-radius:12px;padding:1.2rem 1.5rem;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#7f1d1d;">
+        <b>Formularz nie działa w tym podglądzie.</b><br>
+        Ten podgląd blokuje skrypty, dlatego przyciski nic nie robią. Pobierz ten plik na komputer i otwórz go w przeglądarce — tam formularz działa normalnie, a przycisk „Eksportuj do PDF” otworzy okno drukowania, w którym wybierzesz „Zapisz jako PDF”.
+    </div>
+</noscript>
+
+<div class="main-container">
+    <h2 class="sr-only">Zamówienie usług foto / wideo dla Działu Kreatywnego, Uniwersytet VIZJA</h2>
+
+    <!-- ================= HERO ================= -->
+    <div class="hero">
+        <h1>Zamówienie usług foto / wideo</h1>
+        <p>Opowiedz nam krótko, czego potrzebujesz. Jeśli czegoś nie wiesz — wpisz <b>DO USTALENIA</b>. To zajmie ok. 5 minut. Twoje odpowiedzi zapisują się automatycznie — możesz wrócić do formularza później.</p>
+    </div>
+
+    <div class="browser-note">
+        <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+        <span><b>Ważne — otwórz formularz w przeglądarce:</b> ten plik działa tylko w przeglądarce. Podgląd pliku, np. w czacie lub poczcie, blokuje przyciski — formularz wtedy nie działa. Pobierz plik i otwórz go w przeglądarce.</span>
+    </div>
+
+    <details class="instruction">
+        <summary>Instrukcja — jak wypełnić formularz (kliknij, aby rozwinąć)</summary>
+        <div class="instr-body">
+            <p><b>Wypełnienie zajmuje ok. 5 minut.</b> Jeśli czegoś nie wiesz — wpisz DO USTALENIA. Odpowiedzi zapisują się automatycznie, możesz wrócić później. Pola z * są obowiązkowe, reszta opcjonalna.</p>
+            <ul>
+                <li><b>Krok 1 — Co trzeba?</b> Wybierz usługi. Jeśli film ma kogoś przekonać — odpowiedz na 5 krótkich pytań o jego cel.</li>
+                <li><b>Krok 2 — Kiedy i gdzie?</b> Data, godziny, miejsce i plan wydarzenia — co po kolei się będzie działo — oraz kto musi być w kadrze.</li>
+                <li><b>Krok 3 — Szczegóły.</b> Pytania tylko o wybrane usługi.</li>
+                <li><b>Krok 4 — Kontakty i dostawa.</b> Twoje dane, gdzie materiał będzie pokazany, zgody, termin gotowych materiałów oraz linki do materiałów i inspiracji.</li>
+                <li><b>Krok 5 — Sprawdzenie.</b> Sprawdź odpowiedzi (każdą sekcję poprawisz przyciskiem „Zmień”), kliknij „Wyślij e-mailem” — gotowy list trafi do Ivana Donyka i Izabeli Błaszczyk-Janickiej — albo „Eksportuj do PDF” i wyślij plik do Izabeli Błaszczyk-Janickiej (ADM), i.blaszczyk-janicka@vizja.pl. Numer zlecenia (KRE-…) podawaj w korespondencji.</li>
+            </ul>
+            <p><b>Terminy:</b> zgłoś foto 5 dni, video i dron 10 dni, podcast i transmisja 15 dni przed wydarzeniem. Realizacja: zdjęcia do 5 dni roboczych (social media do 2 dni), film do 10 dni, promocyjny — ustalamy przed nagraniem. Jedna runda poprawek, dostawa linkiem.</p>
+            <p><b>Pamiętaj:</b> przy dzieciach zgody rodziców są obowiązkowe przed wydarzeniem. Dron lata tylko na zewnątrz i przy dobrej pogodzie.</p>
+        </div>
+    </details>
+
+    <!-- ================= WSKAŹNIK KROKÓW ================= -->
+    <div class="steps-wrap">
+        <div class="steps-top"><span>Krok <b id="stepCounter">1</b> z 5</span><span id="stepsHint">Wybierz usługi</span></div>
+        <div class="steps" id="stepsBar">
+            <div class="step-pill active" data-step="1" onclick="goToStep(1)"><span class="n">1</span> Co trzeba?</div>
+            <div class="step-pill" data-step="2" onclick="goToStep(2)"><span class="n">2</span> Kiedy i gdzie?</div>
+            <div class="step-pill" data-step="3" onclick="goToStep(3)"><span class="n">3</span> Szczegóły</div>
+            <div class="step-pill" data-step="4" onclick="goToStep(4)"><span class="n">4</span> Kontakty</div>
+            <div class="step-pill" data-step="5" onclick="goToStep(5)"><span class="n">5</span> Sprawdzenie</div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div id="formBlock">
+
+            <!-- ================= KROK 1: CO TRZEBA? ================= -->
+            <div class="step-panel visible" id="panel1">
+                <div class="error-box" id="error1"></div>
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-apps" aria-hidden="true"></i> Zaznacz, czego potrzebujesz <span class="req" style="color:#e24b4a;font-size:13px">*</span></div>
+                    <div class="chips" id="serviceChips">
+                        <label class="chip big"><input type="checkbox" value="Foto" onchange="updateServices()"><i class="ti ti-camera" aria-hidden="true"></i> Foto</label>
+                        <label class="chip big"><input type="checkbox" value="Video / montaż" onchange="updateServices()"><i class="ti ti-video" aria-hidden="true"></i> Video / montaż</label>
+                        <label class="chip big"><input type="checkbox" value="Podcast" onchange="updateServices()"><i class="ti ti-microphone" aria-hidden="true"></i> Podcast</label>
+                        <label class="chip big"><input type="checkbox" value="Transmisja na żywo" onchange="updateServices()"><i class="ti ti-broadcast" aria-hidden="true"></i> Transmisja na żywo</label>
+                        <label class="chip big"><input type="checkbox" value="Dron" onchange="updateServices()"><i class="ti ti-drone" aria-hidden="true"></i> Dron</label>
+                    </div>
+                    <div class="hint" style="margin-top:8px">Możesz wybrać kilka.</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-target" aria-hidden="true"></i> Czy ten materiał ma kogoś do czegoś przekonać?</div>
+                    <div class="chips" id="persuadeChips">
+                        <label class="chip big"><input type="radio" name="persuade" value="Tak" onchange="updatePersuade()"><i class="ti ti-speakerphone" aria-hidden="true"></i> Tak — to film promocyjny</label>
+                        <label class="chip big"><input type="radio" name="persuade" value="Nie" checked onchange="updatePersuade()"><i class="ti ti-calendar-event" aria-hidden="true"></i> Nie — to zwykła dokumentacja</label>
+                    </div>
+                    <div class="hint" style="margin-top:8px">Jeśli film ma kogoś przekonać, zadamy 5 krótkich pytań.</div>
+                </div>
+
+                <div class="cond" id="promoSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-bulb" aria-hidden="true"></i> Po co ten film?</div>
+                        <div class="grid2">
+                            <div class="field fullw">
+                                <label>Do kogo mówimy? <span class="req">*</span></label>
+                                <textarea id="f-audience" placeholder="np. studenci prawa, którzy nie znają Kliniki Prawa" style="min-height:60px"></textarea>
+                            </div>
+                            <div class="field fullw">
+                                <label>Co mają zrozumieć? <span class="req">*</span></label>
+                                <textarea id="f-understand" placeholder="np. że uczelnia pomaga studentom w praktyce" style="min-height:60px"></textarea>
+                            </div>
+                            <div class="field fullw">
+                                <label>Czym to udowodnimy? <span class="req">*</span></label>
+                                <textarea id="f-evidence" placeholder="np. projekty, rankingi, historie studentów" style="min-height:60px"></textarea>
+                            </div>
+                            <div class="field fullw">
+                                <label>Kto to powie? <span class="req">*</span></label>
+                                <textarea id="f-people" placeholder="np. absolwent — co mu dał udział w projekcie" style="min-height:60px"></textarea>
+                            </div>
+                            <div class="field fullw">
+                                <label>O czym mają mówić? <span class="req">*</span></label>
+                                <textarea id="f-statements" placeholder="np. jak wygląda praca nad prawdziwą sprawą" style="min-height:60px"></textarea>
+                            </div>
+                            <div class="field fullw">
+                                <label>Co mają zrobić po filmie? <span class="req">*</span></label>
+                                <div class="chips" id="actionChips" style="margin-top:4px">
+                                    <label class="chip"><input type="checkbox" value="Zapisać się"> Zapisać się</label>
+                                    <label class="chip"><input type="checkbox" value="Aplikować"> Aplikować</label>
+                                    <label class="chip"><input type="checkbox" value="Dołączyć"> Dołączyć</label>
+                                    <label class="chip"><input type="checkbox" value="Wejść na stronę"> Wejść na stronę</label>
+                                    <label class="chip"><input type="checkbox" value="Przyjść na wydarzenie"> Przyjść na wydarzenie</label>
+                                    <label class="chip"><input type="checkbox" value="Skontaktować się"> Skontaktować się</label>
+                                    <label class="chip"><input type="checkbox" value="Rozważyć współpracę"> Rozważyć współpracę</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-row">
+                    <span></span>
+                    <button class="btn-primary" onclick="nextStep()">Dalej →</button>
+                </div>
+            </div>
+
+            <!-- ================= KROK 2: KIEDY I GDZIE? ================= -->
+            <div class="step-panel" id="panel2">
+                <div class="error-box" id="error2"></div>
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-calendar" aria-hidden="true"></i> Kiedy i gdzie</div>
+                    <div class="grid3">
+                        <div class="field">
+                            <label>Data wydarzenia <span class="req">*</span></label>
+                            <input type="date" id="f-date" onchange="updateDateWeekday();renderLeadWarning()">
+                            <span class="hint" id="dateWeekday"></span>
+                        </div>
+                        <div class="field">
+                            <label>Godzina rozpoczęcia <span class="req">*</span></label>
+                            <input type="time" id="f-start">
+                        </div>
+                        <div class="field">
+                            <label>Godzina zakończenia <span class="req">*</span></label>
+                            <input type="time" id="f-end">
+                        </div>
+                        <div class="field fullw">
+                            <label>Miejsce / sala <span class="req">*</span></label>
+                            <input type="text" id="f-room" placeholder="np. Aula główna, Sala 302 – VIZJA Park">
+                        </div>
+                        <div class="field fullw">
+                            <label>Plan wydarzenia <span class="req">*</span></label>
+                            <textarea id="f-plan" placeholder="np. 16:00 powitanie, 16:15 dyplomy, 17:00 zdjęcia grupowe"></textarea>
+                        </div>
+                        <div class="field fullw">
+                            <label>Kto musi być w kadrze</label>
+                            <input type="text" id="f-mustfilm" placeholder="np. Rektor, goście honorowi, wszyscy uczestnicy">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box amber cond" id="leadWarning2">
+                    <i class="ti ti-alarm" aria-hidden="true"></i>
+                    <span id="leadWarningText2"></span>
+                </div>
+
+                <div class="nav-row">
+                    <button class="btn-sec" onclick="prevStep()">← Wstecz</button>
+                    <button class="btn-primary" onclick="nextStep()">Dalej →</button>
+                </div>
+            </div>
+
+            <!-- ================= KROK 3: SZCZEGÓŁY USŁUG ================= -->
+            <div class="step-panel" id="panel3">
+                <div class="error-box" id="error3"></div>
+                <div class="hint" style="margin-bottom:1.5rem;font-size:13px">Tylko wybrane usługi.</div>
+
+                <!-- FOTO -->
+                <div class="cond" id="fotoSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-camera" aria-hidden="true"></i> Foto — szczegóły</div>
+                        <div class="grid2">
+                            <div class="field fullw">
+                                <label>Rodzaj zdjęć</label>
+                                <div class="chips" id="photoTypeChips">
+                                    <label class="chip"><input type="checkbox" value="Fotoreportaż"> Fotoreportaż</label>
+                                    <label class="chip"><input type="checkbox" value="Sesja zdjęciowa"> Sesja zdjęciowa</label>
+                                    <label class="chip"><input type="checkbox" value="Zdjęcia grupowe"> Zdjęcia grupowe</label>
+                                    <label class="chip"><input type="checkbox" value="Zdjęcia do social mediów"> Zdjęcia do social mediów</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Szybkie zdjęcia do social mediów?</label>
+                                <div class="chips" id="photoFastChips" style="margin-top:4px">
+                                    <label class="chip"><input type="checkbox" value="Tak"> Tak, potrzebne</label>
+                                    <label class="chip"><input type="checkbox" value="Nie"> Nie, standardowo</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Miejsce sesji (jeśli inne)</label>
+                                <input type="text" id="f-photo-place" placeholder="np. studio, dziedziniec, sala 302">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO -->
+                <div class="cond" id="videoSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-video" aria-hidden="true"></i> Video / montaż — szczegóły</div>
+                        <div class="grid2">
+                            <div class="field fullw">
+                                <label>Rodzaj filmu</label>
+                                <div class="chips" id="videoTypeChips">
+                                    <label class="chip"><input type="checkbox" value="Relacja 1–3 min"> Relacja 1–3 min</label>
+                                    <label class="chip"><input type="checkbox" value="Film z wywiadami"> Film z wywiadami</label>
+                                    <label class="chip"><input type="checkbox" value="Nagranie wykładu / konferencji"> Nagranie wykładu / konferencji</label>
+                                    <label class="chip"><input type="checkbox" value="Rolki / shortsy"> Rolki / shortsy</label>
+                                    <label class="chip"><input type="checkbox" value="Montaż z Waszych nagrań"> Montaż z Waszych nagrań</label>
+                                </div>
+                                <span class="hint">Relacja = film 1–3 min. Rolki = krótkie filmy w pionie.</span>
+                            </div>
+                            <div class="field">
+                                <label>Docelowa długość filmu</label>
+                                <input type="text" id="f-video-length" placeholder="np. ok. 2 min, do 10 min">
+                            </div>
+                            <div class="field">
+                                <label>Własne nagrania do montażu?</label>
+                                <div class="chips" id="videoOwnChips" style="margin-top:4px">
+                                    <label class="chip"><input type="checkbox" value="Tak"> Tak</label>
+                                    <label class="chip"><input type="checkbox" value="Nie — nagrywamy my"> Nie — nagrywamy my</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PODCAST -->
+                <div class="cond" id="podcastSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-microphone" aria-hidden="true"></i> Podcast — szczegóły</div>
+                        <div class="grid2">
+                            <div class="field fullw">
+                                <label>Rodzaj</label>
+                                <div class="chips" id="podcastTypeChips">
+                                    <label class="chip"><input type="checkbox" value="Podcast audio"> Podcast audio</label>
+                                    <label class="chip"><input type="checkbox" value="Podcast wideo"> Podcast wideo</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Czas trwania</label>
+                                <input type="text" id="f-duration" placeholder="np. 40 minut">
+                            </div>
+                            <div class="field">
+                                <label>Goście / mikrofony</label>
+                                <input type="text" id="f-guests" placeholder="np. 2 gości + prowadzący">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRANSMISJA NA ŻYWO -->
+                <div class="cond" id="streamSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-broadcast" aria-hidden="true"></i> Transmisja na żywo — szczegóły</div>
+                        <div class="grid2">
+                            <div class="field">
+                                <label>Platforma <span class="req">*</span></label>
+                                <select id="f-platform">
+                                    <option value="">– wybierz –</option>
+                                    <option>YouTube Live</option>
+                                    <option>Facebook Live</option>
+                                    <option>Teams / Zoom</option>
+                                    <option>Inna</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Czas trwania</label>
+                                <input type="text" id="f-stream-duration" placeholder="np. 2,5 godziny">
+                            </div>
+                            <div class="field">
+                                <label>Goście / mikrofony</label>
+                                <input type="text" id="f-stream-guests" placeholder="np. 2 gości + prowadzący">
+                            </div>
+                            <div class="field">
+                                <label>Internet w sali</label>
+                                <div class="chips" id="internetChips" style="margin-top:4px">
+                                    <label class="chip"><input type="checkbox" value="Port LAN"> Port LAN dostępny</label>
+                                    <label class="chip"><input type="checkbox" value="WiFi"> WiFi</label>
+                                    <label class="chip"><input type="checkbox" value="Nie wiem"> Nie wiem</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DRON -->
+                <div class="cond" id="dronSection">
+                    <div class="section">
+                        <div class="section-title"><i class="ti ti-drone" aria-hidden="true"></i> Dron — szczegóły</div>
+                        <div class="grid2">
+                            <div class="field fullw">
+                                <label>Gdzie dokładnie mamy latać <span class="req">*</span></label>
+                                <input type="text" id="f-dron-place" placeholder="np. dziedziniec kampusu, boisko, nad budynkiem A">
+                                <span class="hint">Potrzebne do zgody na lot</span>
+                            </div>
+                            <div class="field fullw">
+                                <label>Co z drona? <span class="req">*</span></label>
+                                <div class="chips" id="dronOutputChips">
+                                    <label class="chip"><input type="checkbox" value="Film"> Film</label>
+                                    <label class="chip"><input type="checkbox" value="Zdjęcia"> Zdjęcia</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box amber">
+                        <i class="ti ti-drone" aria-hidden="true"></i>
+                        <span><b>Dron:</b> tylko na zewnątrz i przy dobrej pogodzie. Przy złej pogodzie uzgodnimy zamiennik.</span>
+                    </div>
+                </div>
+
+                <div class="nav-row">
+                    <button class="btn-sec" onclick="prevStep()">← Wstecz</button>
+                    <button class="btn-primary" onclick="nextStep()">Dalej →</button>
+                </div>
+            </div>
+
+            <!-- ================= KROK 4: KONTAKTY I DOSTAWA ================= -->
+            <div class="step-panel" id="panel4">
+                <div class="error-box" id="error4"></div>
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-user" aria-hidden="true"></i> Kto zleca</div>
+                    <div class="grid2">
+                        <div class="field">
+                            <label>Imię i nazwisko <span class="req">*</span></label>
+                            <input type="text" id="f-name" placeholder="np. Jan Kowalski">
+                        </div>
+                        <div class="field">
+                            <label>E-mail / telefon <span class="req">*</span></label>
+                            <input type="text" id="f-contact" placeholder="np. j.kowalski@vizja.pl">
+                        </div>
+                        <div class="field">
+                            <label>Wydział / dział</label>
+                            <input type="text" id="f-dept" placeholder="np. Rektorat, Marketing, Fashion Design">
+                        </div>
+                        <div class="field">
+                            <label>Kontakt w dniu wydarzenia</label>
+                            <input type="text" id="f-daycontact" placeholder="jeśli inna niż zlecająca">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-share" aria-hidden="true"></i> Gdzie to pokażesz?</div>
+                    <div class="chips" id="publishChips">
+                        <label class="chip"><input type="checkbox" value="Social media uczelni" onchange="updateDerivedFormats()"> Social media uczelni</label>
+                        <label class="chip"><input type="checkbox" value="Strona www" onchange="updateDerivedFormats()"> Strona www</label>
+                        <label class="chip"><input type="checkbox" value="YouTube" onchange="updateDerivedFormats()"> YouTube</label>
+                        <label class="chip"><input type="checkbox" value="Prasa / materiały promocyjne" onchange="updateDerivedFormats()"> Prasa / materiały promocyjne</label>
+                        <label class="chip"><input type="checkbox" value="Tylko archiwum" onchange="updateDerivedFormats()"> Tylko archiwum</label>
+                    </div>
+                    <div class="hint" id="derivedFormatsHint" style="margin-top:8px">Przygotujemy: –</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-users" aria-hidden="true"></i> Ludzie i zgody</div>
+                    <div class="grid2">
+                        <div class="field">
+                            <label>Zgody na wizerunek</label>
+                            <div class="chips" id="consentChips" style="margin-top:4px">
+                                <label class="chip"><input type="checkbox" value="Zbieram sam(a)"> Zbieram sam(a)</label>
+                                <label class="chip"><input type="checkbox" value="Proszę o pomoc"> Proszę o pomoc</label>
+                                <label class="chip"><input type="checkbox" value="Nie dotyczy"> Nie dotyczy</label>
+                            </div>
+                        </div>
+                        <div class="field fullw">
+                            <label>Uwagi / ograniczenia</label>
+                            <textarea id="f-limits" placeholder="np. dress code, czego nie publikować" style="min-height:60px"></textarea>
+                        </div>
+                        <div class="field fullw">
+                            <label>Materiały i inspiracje (linki)</label>
+                            <textarea id="f-materials" placeholder="np. link do plakatu, poprzednich zdjęć, filmu na wzór" style="min-height:60px"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box amber">
+                    <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+                    <span><b>Dzieci:</b> zgody rodziców są obowiązkowe przed wydarzeniem.</span>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="ti ti-truck-delivery" aria-hidden="true"></i> Dostawa</div>
+                    <div class="grid2">
+                        <div class="field fullw">
+                            <label>Kiedy gotowe materiały mają być u Ciebie? (opcjonalnie)</label>
+                            <input type="date" id="f-deadline">
+                            <span class="hint">Jeśli puste — standardowe terminy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box blue">
+                    <i class="ti ti-info-circle" aria-hidden="true"></i>
+                    <span><b>Terminy:</b> zdjęcia — do 5 dni roboczych (social media — do 2 dni), film — do 10 dni, film promocyjny — ustalamy przed nagraniem. Jedna runda poprawek, dostawa linkiem.<br>
+                    <b>Zgłoś minimum:</b> foto 5 dni, video i dron 10 dni, podcast i transmisja 15 dni przed wydarzeniem.</span>
+                </div>
+
+                <div class="info-box amber cond" id="leadWarning4">
+                    <i class="ti ti-alarm" aria-hidden="true"></i>
+                    <span id="leadWarningText4"></span>
+                </div>
+
+                <div class="nav-row">
+                    <button class="btn-sec" onclick="prevStep()">← Wstecz</button>
+                    <button class="btn-primary" onclick="nextStep()">Dalej →</button>
+                </div>
+            </div>
+
+            <!-- ================= KROK 5: SPRAWDZENIE ================= -->
+            <div class="step-panel" id="panel5">
+                <div class="error-box" id="error5"></div>
+                <div class="hint" style="margin-bottom:1.5rem;font-size:13px">Sprawdź, czy wszystko się zgadza. Każdą sekcję możesz poprawić przyciskiem „Zmień”.</div>
+
+                <div id="checkAnswers"></div>
+
+                <div class="info-box blue" style="margin-bottom:0">
+                    <i class="ti ti-file-download" aria-hidden="true"></i>
+                    <span>Kliknij <b>Wyślij e-mailem</b> — gotowy list trafi do Ivana Donyka i Izabeli Błaszczyk-Janickiej. Możesz też <b>Eksportuj do PDF</b> i wysłać plik do: Izabela Błaszczyk-Janicka (ADM),
+                    <a href="mailto:i.blaszczyk-janicka@vizja.pl" style="color:#0f2a4a;font-weight:600;">i.blaszczyk-janicka@vizja.pl</a></span>
+                </div>
+
+                <div class="nav-row">
+                    <button class="btn-sec" onclick="prevStep()">← Wstecz</button>
+                    <button class="btn-primary" onclick="sendOrderEmail()">
+                        <i class="ti ti-mail" aria-hidden="true"></i> Wyślij e-mailem
+                    </button>
+                    <button class="btn-sec" onclick="generatePDF()">
+                        <i class="ti ti-download" aria-hidden="true"></i> Eksportuj do PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PRINT PREVIEW ================= -->
+        <div id="printPreview"></div>
+
+        <!-- ================= SUCCESS ================= -->
+        <div class="success" id="successBlock">
+            <i class="ti ti-circle-check main-icon"></i>
+            <h3>Plik PDF został pobrany!</h3>
+            <div class="order-no">Numer zlecenia: <span id="successOrderNo"></span></div>
+            <div class="success-summary" id="successSummary"></div>
+            <p><b>Co dalej?</b> Wyślij zlecenie e-mailem do Ivana Donyka i Izabeli Błaszczyk-Janickiej — albo wyślij pobrany plik PDF do Izabeli Błaszczyk-Janickiej (ADM):
+            <a href="mailto:i.blaszczyk-janicka@vizja.pl" style="color:#0f2a4a;font-weight:600;">i.blaszczyk-janicka@vizja.pl</a> — numer zlecenia podawaj w korespondencji.</p>
+            <button class="btn-primary" style="margin: 0 auto 12px auto;" onclick="sendOrderEmail()">
+                <i class="ti ti-mail" aria-hidden="true"></i> Wyślij e-mailem
+            </button>
+            <button class="btn-primary" style="margin: 0 auto;" onclick="resetForm()">Wypełnij kolejne zlecenie</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    let visitedMax = 1;
+    const DRAFT_KEY = 'fit-form-draft-v4';
+    let currentOrderNo = '';
+    const STEP_TITLES = { 1: 'Wybierz usługi', 2: 'Kiedy i gdzie', 3: 'Szczegóły usług', 4: 'Kontakty i dostawa', 5: 'Sprawdzenie odpowiedzi' };
+
+    /* ============ pomocnicze ============ */
+    function getChecked(container) {
+        return Array.from(document.querySelectorAll(container + ' input:checked')).map(i => i.value).join(', ');
+    }
+    function getServices() {
+        return getChecked('#serviceChips');
+    }
+    function isPersuasion() {
+        const r = document.querySelector('#persuadeChips input[name="persuade"]:checked');
+        return r && r.value === 'Tak';
+    }
+    function weekdayName(d) {
+        if (!d) return '';
+        const s = new Date(d + 'T00:00:00').toLocaleDateString('pl-PL', { weekday: 'long' });
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    function formatDate(d) {
+        return d ? new Date(d + 'T00:00:00').toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }) : '–';
+    }
+    function formatDateWeekday(d) {
+        return d ? formatDate(d) + ' (' + weekdayName(d).toLowerCase() + ')' : '–';
+    }
+    function safe(text) {
+        if (!text) return '<span style="color:#9ca3af;">–</span>';
+        return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    }
+    function safeText(text) {
+        return text ? text : '–';
+    }
+    function row(label, value, bold) {
+        const val = bold
+            ? `<td style="padding:7px 0 7px 12px; font-weight:600;">${value}</td>`
+            : `<td style="padding:7px 0 7px 12px;">${value}</td>`;
+        return `<tr style="border-top:1px solid #f3f4f6;">
+                    <td style="padding:7px 12px 7px 0; width:38%; color:#6b7280; white-space:nowrap; vertical-align:top;">${label}</td>
+                    ${val}
+                </tr>`;
+    }
+    function sectionHeader(icon, title) {
+        return `<tr><td colspan="2" style="padding:16px 0 6px 0;">
+                    <div style="display:flex;align-items:center;gap:8px;border-bottom:2px solid #2563eb;padding-bottom:6px;">
+                        <span style="font-size:16px;">${icon}</span>
+                        <span style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#4b5563;">${title}</span>
+                    </div>
+                </td></tr>`;
+    }
+    function setInvalid(id, bad) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('invalid', !!bad);
+    }
+    function orderNo() {
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const ev = document.getElementById('f-date').value;
+        const base = ev ? ev.replace(/-/g, '') : (now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()));
+        return 'KRE-' + base + '-' + pad(now.getHours()) + pad(now.getMinutes());
+    }
+
+    /* ============ nawigacja kroków ============ */
+    function showStep(n) {
+        currentStep = n;
+        visitedMax = Math.max(visitedMax, n);
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById('panel' + i).classList.toggle('visible', i === n);
+        }
+        document.querySelectorAll('#stepsBar .step-pill').forEach(p => {
+            const s = parseInt(p.dataset.step, 10);
+            p.classList.toggle('active', s === n);
+            p.classList.toggle('done', s < n);
+        });
+        document.getElementById('stepCounter').textContent = n;
+        document.getElementById('stepsHint').textContent = STEP_TITLES[n];
+        if (n === 5) buildCheckAnswers();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function goToStep(n) {
+        if (n <= visitedMax) showStep(n);
+    }
+    function prevStep() {
+        if (currentStep > 1) showStep(currentStep - 1);
+    }
+    function nextStep() {
+        const missing = validateStep(currentStep);
+        if (missing.length) {
+            showStepError(currentStep, missing);
+            return;
+        }
+        hideStepError(currentStep);
+        if (currentStep === 4) renderLeadWarning();
+        showStep(currentStep + 1);
+    }
+    function showStepError(n, missing) {
+        const el = document.getElementById('error' + n);
+        el.innerHTML = '<b>Proszę uzupełnić:</b><br>• ' + missing.join('<br>• ');
+        el.classList.add('visible');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function hideStepError(n) {
+        document.getElementById('error' + n).classList.remove('visible');
+    }
+
+    /* ============ logika warunkowa ============ */
+    function updateServices() {
+        const s = getServices();
+        document.getElementById('fotoSection').classList.toggle('visible', s.includes('Foto'));
+        document.getElementById('videoSection').classList.toggle('visible', s.includes('Video / montaż'));
+        document.getElementById('podcastSection').classList.toggle('visible', s.includes('Podcast'));
+        document.getElementById('streamSection').classList.toggle('visible', s.includes('Transmisja na żywo'));
+        document.getElementById('dronSection').classList.toggle('visible', s.includes('Dron'));
+        renderLeadWarning();
+    }
+    function updatePersuade() {
+        document.getElementById('promoSection').classList.toggle('visible', isPersuasion());
+    }
+    function requiredLeadDays() {
+        const s = getServices();
+        if (s.includes('Podcast') || s.includes('Transmisja na żywo')) return 15;
+        if (s.includes('Video / montaż') || s.includes('Dron')) return 10;
+        return 5;
+    }
+    function renderLeadWarning() {
+        const dateVal = document.getElementById('f-date').value;
+        const boxes = [['leadWarning2', 'leadWarningText2'], ['leadWarning4', 'leadWarningText4']];
+        let html = null;
+        if (dateVal) {
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const ev = new Date(dateVal + 'T00:00:00');
+            const days = Math.round((ev - today) / 86400000);
+            const need = requiredLeadDays();
+            if (days >= 0 && days < need) {
+                html = '<span class="lead-warn">Mało czasu:</span> do wydarzenia ' + days + ' dni, a zwykle potrzebujemy ' + need + ' dni. Napisz do nas od razu po wysłaniu.';
+            } else if (days < 0) {
+                html = '<span class="lead-warn">Uwaga:</span> wybrana data wydarzenia już minęła. Sprawdź datę.';
+            }
+        }
+        boxes.forEach(([box, txt]) => {
+            const b = document.getElementById(box);
+            if (html) { document.getElementById(txt).innerHTML = html; b.classList.add('visible'); }
+            else { b.classList.remove('visible'); }
+        });
+    }
+    function updateDateWeekday() {
+        const d = document.getElementById('f-date').value;
+        document.getElementById('dateWeekday').textContent = d ? weekdayName(d) : '';
+    }
+
+    /* ============ formaty z miejsc publikacji ============ */
+    function derivedFormats() {
+        const p = getChecked('#publishChips');
+        const out = [];
+        if (p.includes('Social media uczelni')) { out.push('9:16 (pion)'); out.push('1:1'); }
+        if (p.includes('Strona www') || p.includes('YouTube')) out.push('16:9');
+        if (p.includes('Prasa / materiały promocyjne')) out.push('Wydruk / wysoka rozdzielczość');
+        if (p.includes('Tylko archiwum')) out.push('Oryginał');
+        const uniq = [...new Set(out)];
+        return uniq.length ? uniq.join(', ') : '–';
+    }
+    function updateDerivedFormats() {
+        document.getElementById('derivedFormatsHint').textContent = 'Przygotujemy: ' + derivedFormats();
+    }
+
+    /* ============ sprawdzenie odpowiedzi ============ */
+    function checkGroup(title, step, rowsHtml) {
+        return `<div class="check-group">
+                    <div class="check-group-head"><b>${title}</b><button class="change-btn" onclick="goToStep(${step})">Zmień</button></div>
+                    ${rowsHtml}
+                </div>`;
+    }
+    function checkRow(label, value) {
+        return `<div class="check-row"><span class="k">${label}</span><span class="v">${safe(value)}</span></div>`;
+    }
+    function buildCheckAnswers() {
+        const v = id => document.getElementById(id).value.trim();
+        const services = getServices();
+        let html = '';
+
+        html += checkGroup('Co trzeba?', 1,
+            checkRow('Usługi', safeText(services)) +
+            checkRow('Film promocyjny', isPersuasion() ? 'Tak' : 'Nie'));
+
+        if (isPersuasion()) {
+            html += checkGroup('Po co ten film?', 1,
+                checkRow('Do kogo', v('f-audience')) +
+                checkRow('Mają zrozumieć', v('f-understand')) +
+                checkRow('Dowody', v('f-evidence')) +
+                checkRow('Kto powie', v('f-people')) +
+                checkRow('O czym mówić', v('f-statements')) +
+                checkRow('Działanie po filmie', getChecked('#actionChips')));
+        }
+
+        html += checkGroup('Kiedy i gdzie?', 2,
+            checkRow('Data', formatDateWeekday(document.getElementById('f-date').value)) +
+            checkRow('Godziny', (v('f-start') || '–') + ' – ' + (v('f-end') || '–')) +
+            checkRow('Miejsce', v('f-room')) +
+            checkRow('Plan', v('f-plan')) +
+            checkRow('Kto w kadrze', v('f-mustfilm')));
+
+        let details = '';
+        if (services.includes('Foto')) {
+            details += checkRow('Foto — rodzaj', getChecked('#photoTypeChips')) +
+                checkRow('Foto — szybkie zdjęcia', getChecked('#photoFastChips')) +
+                checkRow('Foto — miejsce sesji', v('f-photo-place'));
+        }
+        if (services.includes('Video / montaż')) {
+            details += checkRow('Video — rodzaj', getChecked('#videoTypeChips')) +
+                checkRow('Video — długość', v('f-video-length')) +
+                checkRow('Video — własne nagrania', getChecked('#videoOwnChips'));
+        }
+        if (services.includes('Podcast')) {
+            details += checkRow('Podcast — rodzaj', getChecked('#podcastTypeChips')) +
+                checkRow('Podcast — czas', v('f-duration')) +
+                checkRow('Podcast — goście', v('f-guests'));
+        }
+        if (services.includes('Transmisja na żywo')) {
+            details += checkRow('Transmisja — platforma', document.getElementById('f-platform').value) +
+                checkRow('Transmisja — czas', v('f-stream-duration')) +
+                checkRow('Transmisja — goście', v('f-stream-guests')) +
+                checkRow('Transmisja — internet', getChecked('#internetChips'));
+        }
+        if (services.includes('Dron')) {
+            details += checkRow('Dron — co z drona', getChecked('#dronOutputChips')) +
+                checkRow('Dron — miejsce lotu', v('f-dron-place'));
+        }
+        html += checkGroup('Szczegóły usług', 3, details || checkRow('Usługi', 'Brak szczegółów'));
+
+        html += checkGroup('Kontakty', 4,
+            checkRow('Imię i nazwisko', v('f-name')) +
+            checkRow('Kontakt', v('f-contact')) +
+            checkRow('Wydział / dział', v('f-dept')) +
+            checkRow('Kontakt w dniu wydarzenia', v('f-daycontact')));
+
+        const deadline = document.getElementById('f-deadline').value;
+        html += checkGroup('Publikacja i dostawa', 4,
+            checkRow('Gdzie pokażesz', getChecked('#publishChips')) +
+            checkRow('Formaty', derivedFormats()) +
+            checkRow('Zgody', getChecked('#consentChips')) +
+            checkRow('Uwagi', v('f-limits')) +
+            checkRow('Materiały i inspiracje', v('f-materials')) +
+            checkRow('Gotowe materiały do', deadline ? formatDate(deadline) : 'Standardowe terminy'));
+
+        document.getElementById('checkAnswers').innerHTML = html;
+    }
+
+    /* ============ walidacja kroków ============ */
+    function validateStep(n) {
+        const v = id => document.getElementById(id).value.trim();
+        const missing = [];
+        if (n === 1) {
+            if (!getServices()) missing.push('Usługi — zaznacz przynajmniej jedną');
+            if (isPersuasion()) {
+                [['f-audience', 'Do kogo mówimy?'], ['f-understand', 'Co mają zrozumieć?'],
+                 ['f-evidence', 'Czym to udowodnimy?'], ['f-people', 'Kto to powie?'],
+                 ['f-statements', 'O czym mają mówić?']].forEach(([id, label]) => {
+                    const val = v(id); setInvalid(id, !val); if (!val) missing.push(label);
+                });
+                if (!getChecked('#actionChips')) missing.push('Co mają zrobić po filmie?');
+            }
+        }
+        if (n === 2) {
+            [['f-date', 'Data wydarzenia'], ['f-start', 'Godzina rozpoczęcia'], ['f-end', 'Godzina zakończenia'],
+             ['f-room', 'Miejsce / sala'], ['f-plan', 'Plan wydarzenia']].forEach(([id, label]) => {
+                const val = id === 'f-date' ? document.getElementById(id).value : v(id);
+                setInvalid(id, !val); if (!val) missing.push(label);
+            });
+        }
+        if (n === 3) {
+            if (getServices().includes('Transmisja na żywo')) {
+                const platform = document.getElementById('f-platform').value;
+                setInvalid('f-platform', !platform);
+                if (!platform) missing.push('Platforma (transmisja na żywo)');
+            }
+            if (getServices().includes('Dron')) {
+                const dronPlace = v('f-dron-place');
+                setInvalid('f-dron-place', !dronPlace);
+                if (!dronPlace) missing.push('Gdzie dokładnie mamy latać (dron)');
+                if (!getChecked('#dronOutputChips')) missing.push('Co z drona? (film lub zdjęcia)');
+            }
+        }
+        if (n === 4) {
+            [['f-name', 'Imię i nazwisko'], ['f-contact', 'E-mail / telefon']].forEach(([id, label]) => {
+                const val = v(id); setInvalid(id, !val); if (!val) missing.push(label);
+            });
+        }
+        return missing;
+    }
+
+    /* ============ autozapis (wersja robocza) ============ */
+    function saveDraft() {
+        try {
+            const els = document.querySelectorAll('#formBlock input, #formBlock select, #formBlock textarea');
+            const data = [];
+            els.forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') data.push(el.checked ? 1 : 0);
+                else data.push(el.value);
+            });
+            localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+        } catch (e) { /* prywatny tryb — pomiń zapis */ }
+    }
+    function loadDraft() {
+        try {
+            const raw = localStorage.getItem(DRAFT_KEY);
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            const els = document.querySelectorAll('#formBlock input, #formBlock select, #formBlock textarea');
+            els.forEach((el, i) => {
+                if (i >= data.length) return;
+                if (el.type === 'checkbox' || el.type === 'radio') el.checked = !!data[i];
+                else el.value = data[i];
+            });
+        } catch (e) { /* uszkodzona wersja robocza — pomiń */ }
+    }
+    function clearDraft() {
+        try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    }
+    document.getElementById('formBlock').addEventListener('input', () => { hideStepError(currentStep); saveDraft(); });
+    document.getElementById('formBlock').addEventListener('change', () => { hideStepError(currentStep); saveDraft(); });
+
+    /* ============ wysyłka e-mailem ============ */
+    function textRow(label, value) {
+        return value ? label + ': ' + value + '\n' : '';
+    }
+    function buildOrderText(no) {
+        const v = id => document.getElementById(id).value.trim();
+        const services = getServices();
+        let t = '';
+        t += 'ZLECENIE FOTO / WIDEO — Dział Kreatywny\n';
+        t += 'Numer zlecenia: ' + no + '\n';
+        t += '========================================\n\n';
+        t += 'WYDARZENIE\n';
+        t += textRow('Data', formatDateWeekday(document.getElementById('f-date').value));
+        t += textRow('Godziny', (v('f-start') && v('f-end')) ? v('f-start') + ' – ' + v('f-end') : '');
+        t += textRow('Miejsce', v('f-room'));
+        t += textRow('Kto musi być w kadrze', v('f-mustfilm'));
+        t += '\nPLAN WYDARZENIA\n' + (v('f-plan') || '–') + '\n';
+        if (services) {
+            t += '\nUSŁUGI: ' + services + '\n';
+            if (services.includes('Foto')) {
+                t += '\nFOTO\n';
+                t += textRow('Rodzaj zdjęć', getChecked('#photoTypeChips'));
+                t += textRow('Szybkie zdjęcia do social mediów', getChecked('#photoFastChips'));
+                t += textRow('Miejsce sesji', v('f-photo-place'));
+            }
+            if (services.includes('Video / montaż')) {
+                t += '\nVIDEO / MONTAŻ\n';
+                t += textRow('Rodzaj filmu', getChecked('#videoTypeChips'));
+                t += textRow('Docelowa długość', v('f-video-length'));
+                t += textRow('Własne nagrania do montażu', getChecked('#videoOwnChips'));
+            }
+            if (services.includes('Podcast')) {
+                t += '\nPODCAST\n';
+                t += textRow('Rodzaj', getChecked('#podcastTypeChips'));
+                t += textRow('Czas trwania', v('f-duration'));
+                t += textRow('Goście / mikrofony', v('f-guests'));
+            }
+            if (services.includes('Transmisja na żywo')) {
+                t += '\nTRANSMISJA NA ŻYWO\n';
+                t += textRow('Platforma', document.getElementById('f-platform').value);
+                t += textRow('Czas trwania', v('f-stream-duration'));
+                t += textRow('Goście / mikrofony', v('f-stream-guests'));
+                t += textRow('Internet w sali', getChecked('#internetChips'));
+            }
+            if (services.includes('Dron')) {
+                t += '\nDRON\n';
+                t += textRow('Co z drona', getChecked('#dronOutputChips'));
+                t += textRow('Miejsce lotu', v('f-dron-place'));
+                t += 'Uwaga: tylko na zewnątrz, zależnie od pogody.\n';
+            }
+        }
+        if (isPersuasion()) {
+            t += '\nPO CO TEN FILM? (film promocyjny)\n';
+            t += textRow('Do kogo mówimy', v('f-audience'));
+            t += textRow('Mają zrozumieć', v('f-understand'));
+            t += textRow('Czym to udowodnimy', v('f-evidence'));
+            t += textRow('Kto to powie', v('f-people'));
+            t += textRow('O czym mają mówić', v('f-statements'));
+            t += textRow('Co mają zrobić po filmie', getChecked('#actionChips'));
+        }
+        t += '\nZLECENIODAWCA\n';
+        t += textRow('Imię i nazwisko', v('f-name'));
+        t += textRow('Kontakt', v('f-contact'));
+        t += textRow('Wydział / dział', v('f-dept'));
+        t += textRow('Kontakt w dniu wydarzenia', v('f-daycontact'));
+        t += '\nPUBLIKACJA I DOSTAWA\n';
+        t += textRow('Gdzie pokażesz', getChecked('#publishChips'));
+        t += textRow('Formaty do przygotowania', derivedFormats());
+        t += textRow('Zgody na wizerunek', getChecked('#consentChips'));
+        t += textRow('Uwagi / ograniczenia', v('f-limits'));
+        t += textRow('Materiały i inspiracje', v('f-materials'));
+        const deadline = document.getElementById('f-deadline').value;
+        t += textRow('Gotowe materiały do', deadline ? formatDate(deadline) : 'Standardowe terminy');
+        t += '\n--\nNumer zlecenia podawaj w korespondencji.';
+        return t;
+    }
+    function sendOrderEmail() {
+        for (let n = 1; n <= 4; n++) {
+            const missing = validateStep(n);
+            if (missing.length) {
+                showStep(n);
+                showStepError(n, missing);
+                return;
+            }
+        }
+        const no = currentOrderNo || (currentOrderNo = orderNo());
+        document.getElementById('successOrderNo').textContent = no;
+        const subject = 'Zlecenie ' + no + ' — Zamówienie usług foto / wideo';
+        const body = buildOrderText(no);
+        window.location.href = 'mailto:i.donyk@vizja.pl,i.blaszczyk-janicka@vizja.pl?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    }
+
+    /* ============ eksport do PDF (druk) ============ */
+    function generatePDF() {
+        // Pełna walidacja na wypadek powrotu i odznaczenia czegoś
+        for (let n = 1; n <= 4; n++) {
+            const missing = validateStep(n);
+            if (missing.length) {
+                showStep(n);
+                showStepError(n, missing);
+                return;
+            }
+        }
+
+        const v = id => document.getElementById(id).value.trim();
+        const name = v('f-name'), contact = v('f-contact'), dept = v('f-dept'), daycontact = v('f-daycontact');
+        const date = document.getElementById('f-date').value;
+        const start = v('f-start'), end = v('f-end');
+        const room = v('f-room'), plan = v('f-plan');
+        const deadline = document.getElementById('f-deadline').value;
+        const mustfilm = v('f-mustfilm'), limits = v('f-limits'), materials = v('f-materials');
+
+        const services = getServices();
+        const publish = getChecked('#publishChips');
+        
+        const consent = getChecked('#consentChips');
+        const no = currentOrderNo || (currentOrderNo = orderNo());
+
+        let fotoRows = '';
+        if (services.includes('Foto')) {
+            fotoRows = sectionHeader('📷', 'Foto')
+                + row('Rodzaj zdjęć:', safe(getChecked('#photoTypeChips')))
+                + row('Szybka selekcja do social mediów:', safe(getChecked('#photoFastChips')))
+                + row('Miejsce sesji:', safe(v('f-photo-place')));
+        }
+        let videoRows = '';
+        if (services.includes('Video / montaż')) {
+            videoRows = sectionHeader('🎬', 'Video / montaż')
+                + row('Rodzaj filmu:', safe(getChecked('#videoTypeChips')))
+                + row('Docelowa długość:', safe(v('f-video-length')))
+                + row('Własne nagrania do montażu:', safe(getChecked('#videoOwnChips')));
+        }
+        let podcastRows = '';
+        if (services.includes('Podcast')) {
+            podcastRows = sectionHeader('🎙️', 'Podcast')
+                + row('Rodzaj:', safe(getChecked('#podcastTypeChips')))
+                + row('Czas trwania:', safe(v('f-duration')))
+                + row('Goście / mikrofony:', safe(v('f-guests')));
+        }
+        let streamRows = '';
+        if (services.includes('Transmisja na żywo')) {
+            streamRows = sectionHeader('📡', 'Transmisja na żywo')
+                + row('Platforma:', safe(document.getElementById('f-platform').value))
+                + row('Czas trwania:', safe(v('f-stream-duration')))
+                + row('Goście / mikrofony:', safe(v('f-stream-guests')))
+                + row('Internet na sali:', safe(getChecked('#internetChips')));
+        }
+        let dronRows = '';
+        if (services.includes('Dron')) {
+            dronRows = sectionHeader('🚁', 'Dron')
+                + row('Co z drona:', safe(getChecked('#dronOutputChips')))
+                + row('Miejsce lotu:', safe(v('f-dron-place')))
+                + row('Uwaga:', 'Tylko na zewnątrz, zależnie od pogody — w razie złej pogody uzgadniamy zamiennik.');
+        }
+
+        let promoRows = '';
+        if (isPersuasion()) {
+            promoRows = sectionHeader('🎯', 'Po co ten film? (film promocyjny)')
+                + row('Odbiorcy:', safe(v('f-audience')))
+                + row('Mają zrozumieć:', safe(v('f-understand')))
+                + row('Dowody:', safe(v('f-evidence')))
+                + row('Osoby wiarygodne:', safe(v('f-people')))
+                + row('Wypowiedzi:', safe(v('f-statements')))
+                + row('Co ludzie mają zrobić po filmie:', `<strong style="color:#0f2a4a;">${safe(getChecked('#actionChips'))}</strong>`);
+        }
+
+        const html = `
+            <div style="font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif; font-size:13px; color:#1f2937; line-height:1.5;">
+                <div style="border-bottom:2px solid #2563eb; padding-bottom:12px; margin-bottom:20px;">
+                    <div style="font-size:22px; font-weight:700; text-transform:uppercase; color:#111827; letter-spacing:.02em;">Zlecenie Foto / Wideo</div>
+                    <div style="color:#6b7280; font-size:11px; margin-top:4px;">Dział Kreatywny · Numer zlecenia: <strong style="color:#0f2a4a;">${no}</strong> · Wygenerowano: ${new Date().toLocaleDateString('pl-PL')} · ${isPersuasion() ? 'Film promocyjny' : 'Dokumentacja wydarzenia'}</div>
+                </div>
+                <table style="width:100%; border-collapse:collapse;" class="print-table">
+                    ${sectionHeader('👤', 'Zleceniodawca')}
+                    ${row('Imię i nazwisko:', safe(name), true)}
+                    ${row('Kontakt:', safe(contact))}
+                    ${row('Wydział / dział:', safe(dept))}
+                    ${row('Kontakt na miejscu:', safe(daycontact))}
+                    ${sectionHeader('📅', 'Czas i miejsce')}
+                    ${row('Data:', `<strong>${formatDateWeekday(date)}</strong>`)}
+                    ${row('Godziny:', `od ${start || '–'} do ${end || '–'}`)}
+                    ${row('Lokalizacja:', `<strong>${safe(room)}</strong>`)}
+                    ${sectionHeader('🛠️', 'Usługi')}
+                    ${row('Wybrane usługi:', `<strong style="color:#0f2a4a;">${safe(services)}</strong>`)}
+                    ${row('Gdzie materiał będzie pokazany:', safe(publish))}
+                    ${row('Formaty do przygotowania:', safe(derivedFormats()))}
+                    ${fotoRows}
+                    ${videoRows}
+                    ${podcastRows}
+                    ${streamRows}
+                    ${dronRows}
+                    ${promoRows}
+                    ${sectionHeader('👥', 'Ludzie, zgody, ograniczenia')}
+                    ${row('Kto musi być na foto/video:', safe(mustfilm))}
+                    ${row('Zgody na wizerunek:', safe(consent))}
+                    ${row('Ograniczenia:', `<span style="color:#92400e;">${safe(limits)}</span>`)}
+                    ${row('Materiały i inspiracje:', safe(materials))}
+                    ${sectionHeader('⏳', 'Dostawa')}
+                    ${row('Gotowe materiały do:', deadline ? `<strong style="color:#e24b4a;">${formatDate(deadline)}</strong>` : 'Standardowe terminy')}
+                </table>
+                <div style="margin-top:14px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; padding:12px 14px;">
+                    <div style="font-weight:700; color:#374151; margin-bottom:6px; font-size:12px; text-transform:uppercase; letter-spacing:.04em;">Plan wydarzenia</div>
+                    <div style="line-height:1.6;">${safe(plan)}</div>
+                </div>
+                <div style="margin-top:16px; color:#6b7280; font-size:11px; border-top:1px solid #e5e7eb; padding-top:10px;">
+                    Po pobraniu wyślij ten plik do: Izabela Błaszczyk-Janicka (ADM), i.blaszczyk-janicka@vizja.pl · Numer zlecenia podawaj w korespondencji.
+                </div>
+            </div>`;
+
+        document.getElementById('printPreview').innerHTML = html;
+        document.getElementById('successOrderNo').textContent = no;
+        document.getElementById('successSummary').innerHTML = document.getElementById('checkAnswers').innerHTML.replace(/<button class="change-btn"[^>]*>Zmień<\/button>/g, '');
+
+        setTimeout(() => {
+            window.print();
+            const onFocus = () => {
+                window.removeEventListener('focus', onFocus);
+                document.getElementById('formBlock').style.display = 'none';
+                document.getElementById('successBlock').style.display = 'block';
+            };
+            window.addEventListener('focus', onFocus);
+        }, 150);
+    }
+
+    function resetForm() {
+        currentOrderNo = '';
+        document.getElementById('formBlock').style.display = 'block';
+        document.getElementById('successBlock').style.display = 'none';
+        document.getElementById('printPreview').innerHTML = '';
+        document.querySelectorAll('input:not([type=checkbox]):not([type=radio])').forEach(i => i.value = '');
+        document.querySelectorAll('select').forEach(s => s.value = '');
+        document.querySelectorAll('textarea').forEach(t => t.value = '');
+        document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+        document.querySelector('input[name="persuade"][value="Nie"]').checked = true;
+        clearDraft();
+        updatePersuade(); updateServices(); updateDerivedFormats(); updateDateWeekday();
+        showStep(1);
+    }
+
+    // init
+    loadDraft();
+    updatePersuade();
+    updateServices();
+    updateDerivedFormats();
+    updateDateWeekday();
+    showStep(1);
+</script>
+
+</body>
+</html>
